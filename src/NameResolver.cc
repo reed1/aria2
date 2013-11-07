@@ -37,6 +37,7 @@
 #include <cstring>
 
 #include "DlAbortEx.h"
+#include "DlRetryEx.h"
 #include "message.h"
 #include "fmt.h"
 #include "util.h"
