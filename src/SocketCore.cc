@@ -406,7 +406,7 @@ void SocketCore::establishConnection(const std::string& host, uint16_t port,
   s = callGetaddrinfo(&res, host.c_str(), util::uitos(port).c_str(),
                       protocolFamily_, sockType_, 0, 0);
   if(s) {
-    throw DL_ABORT_EX(fmt(EX_RESOLVE_HOSTNAME, host.c_str(), gai_strerror(s)));
+    throw DL_RETRY_EX(fmt(EX_RESOLVE_HOSTNAME, host.c_str(), gai_strerror(s)));
   }
   std::unique_ptr<addrinfo, decltype(&freeaddrinfo)> resDeleter
     (res, freeaddrinfo);
@@ -847,7 +847,7 @@ bool SocketCore::tlsHandshake(TLSContext* tlsctx, const std::string& hostname)
       break;
     }
     if(rv != TLS_ERR_WOULDBLOCK) {
-      throw DL_ABORT_EX(fmt("SSL/TLS handshake failure: %s",
+      throw DL_RETRY_EX(fmt("SSL/TLS handshake failure: %s",
                             handshakeError.empty() ?
                             tlsSession_->getLastErrorString().c_str() :
                             handshakeError.c_str()));

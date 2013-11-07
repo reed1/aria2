@@ -724,7 +724,7 @@ std::string AbstractCommand::resolveHostname
           e_->getRequestGroupMan()->getOrCreateServerStat
             (req_->getHost(), req_->getProtocol())->setError();
         }
-        throw DL_ABORT_EX2
+        throw DL_RETRY_EX2
           (fmt(MSG_NAME_RESOLUTION_FAILED, getCuid(), hostname.c_str(),
                asyncNameResolverMan_->getLastError().c_str()),
            error_code::NAME_RESOLVE_ERROR);
